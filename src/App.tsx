@@ -1,23 +1,39 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
+import { ToastAction } from './shared/enums';
+// Components
+import Toast from './components/shared/Toast';
+import Tester from './components/Tester';
+
 import './App.css';
 
 function App() {
+  // icons                  // React icons
+  // Mensajes               // React Toastify
+  // Ventana de preguntas   // SweetAlert 
+  // Controles dinámicos
+  // Formulario dinámico
+
+  const [showToast, setShowToast] = useState(false)
+  const [openModal, setOpenModal] = useState(false)
+  const [messageToast, setMessageToast] = useState("")
+  const [typeToast, setTypeToast] = useState(ToastAction.Default)
+
+  const setToast = (_message: string, _type: ToastAction) => {
+    setMessageToast(_message);
+    setTypeToast(_type);
+    setShowToast(true);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <div className="App">
+
+        <Tester notify={setToast} openModal={() => setOpenModal(!openModal)}/>
+        {
+          showToast && <Toast message={messageToast} toastType={typeToast} />
+        }
+      </div>
+    </Fragment>
   );
 }
 
